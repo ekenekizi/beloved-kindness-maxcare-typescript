@@ -1,0 +1,54 @@
+.mobile-nav-dialog {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+.mobile-nav-dialog::backdrop {
+  background: transparent;
+}
+
+.mobile-nav-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.mobile-nav-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: rgb(11 42 74 / 48%);
+  backdrop-filter: blur(3px);
+}
+
+.mobile-nav-panel {
+  position: absolute;
+  inset: 0 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: min(88vw, 25rem);
+  height: 100%;
+  background: #fff;
+  border-radius: 1.5rem 0 0 1.5rem;
+  box-shadow: -12px 0 48px rgb(11 42 74 / 15%);
+}
+
+.mobile-nav-footer {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.mobile-nav-panel :focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
