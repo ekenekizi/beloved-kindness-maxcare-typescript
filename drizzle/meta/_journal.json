@@ -8,6 +8,13 @@
       "when": 1791381196994,
       "tag": "0000_create-transformation-stories",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791383278205,
+      "tag": "0001_add-authentication-tables",
+      "breakpoints": true
     }
   ]
 }

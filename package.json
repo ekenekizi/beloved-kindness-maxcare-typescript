@@ -10,10 +10,13 @@
     "db:check": "node scripts/check-db.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "auth:create-admin": "auth create-admin --config ./auth-admin.config.ts --role admin"
   },
   "dependencies": {
+    "@better-auth/drizzle-adapter": "^1.7.7",
     "@gullabs/react-flipbook": "^3.2.1",
+    "better-auth": "^1.7.7",
     "drizzle-orm": "^0.45.3",
     "lucide-react": "^1.52.0",
     "motion": "^14.0.0",
@@ -31,6 +34,7 @@
     "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "auth": "^1.7.7",
     "babel-plugin-react-compiler": "1.0.0",
     "drizzle-kit": "^0.31.11",
     "eslint": "^9",
