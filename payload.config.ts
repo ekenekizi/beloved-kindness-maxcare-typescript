@@ -7,6 +7,7 @@ import { buildConfig } from "payload";
 import sharp from "sharp";
 
 import { Users } from "./collections/Users";
+import { Stories } from "./collections/Stories";
 
 const projectDirectory = path.dirname(fileURLToPath(import.meta.url));
 
@@ -29,7 +30,7 @@ export default buildConfig({
     },
   },
 
-  collections: [Users],
+  collections: [Users, Stories],
 
   editor: lexicalEditor(),
 
