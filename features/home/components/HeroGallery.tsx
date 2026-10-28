@@ -78,6 +78,12 @@ function AnimatedPhoto({
         </span>
         <Image
           src={item.src}
+          width={item.width}
+          height={item.height}
+          unoptimized={
+            typeof item.src === "string" &&
+            item.src.startsWith("https://cdn.sanity.io/")
+          }
           alt={item.alt}
           sizes={index === 2 ? HERO_IMAGE_SIZES : `${imageWidth}px`}
           loading={desktop || index === 2 ? "eager" : "lazy"}
@@ -97,7 +103,12 @@ function HeroGallery({ photos }: { photos: HeroPhoto[] }) {
     const { props } = getImageProps({
       src: initialPhoto.src,
       alt: initialPhoto.alt,
+      width: initialPhoto.width,
+      height: initialPhoto.height,
       sizes: HERO_IMAGE_SIZES,
+      unoptimized:
+        typeof initialPhoto.src === "string" &&
+        initialPhoto.src.startsWith("https://cdn.sanity.io/"),
     });
 
     preload(props.src, {

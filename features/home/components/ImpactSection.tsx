@@ -1,48 +1,45 @@
 import { BookImage, Handshake } from "lucide-react";
+
 import Container from "@/components/ui/Container";
 import SectionLabel from "@/components/ui/SectionLabel";
 import LinkButton from "@/components/ui/LinkButton";
+import {
+  Reveal,
+  Stagger,
+  StaggerItem,
+} from "@/components/animation/HomepageMotion";
+
+import type { HomeImpactContent } from "../types";
 import ImpactStatsCard from "./ImpactStatsCard";
 
-const impactStats = [
-  {
-    number: 6,
-    label: "Years of Service",
-  },
-  {
-    number: 100,
-    label: "children supported",
-  },
-  {
-    number: 10,
-    label: "Communities",
-  },
-  {
-    number: 150,
-    label: "Lives Impacted",
-  },
-];
+type ImpactSectionProps = {
+  content: HomeImpactContent | null;
+};
 
-export default function ImpactSection() {
+export default function ImpactSection({ content }: ImpactSectionProps) {
+  if (!content) return null;
+
   return (
     <section className="py-20 lg:py-28">
       <Container className="flex flex-col gap-10 md:flex-row md:justify-between">
-        <div>
-          <SectionLabel className="mb-7">Impact</SectionLabel>
+        <Reveal className="min-w-0">
+          <SectionLabel className="mb-7">{content.label}</SectionLabel>
 
-          <h2 className="font-serif text-4xl leading-[0.95] font-black tracking-tight uppercase sm:text-4xl lg:text-5xl">
-            The work is hard but the
-            <span className="text-primary block">results</span> are real
+          <h2 className="font-serif text-3xl leading-[1.08] font-black tracking-tight uppercase sm:text-4xl lg:text-5xl">
+            {content.headingStart}
+            <span className="text-primary block">
+              {content.headingHighlight}
+            </span>{" "}
+            {content.headingEnd}
           </h2>
 
           <p className="mt-7 max-w-xl text-base leading-8 text-slate-600 lg:text-lg">
-            Every number represents a life changed, a child fed, a widow
-            empowered. We measure our success in human terms.
+            {content.description}
           </p>
 
-          <div className="mt-7 flex gap-2 md:gap-7">
+          <div className="mt-7 flex flex-wrap gap-2 md:gap-7">
             <LinkButton href="/gallery" icon={BookImage} iconPosition="right">
-              Explore Our Gallery
+              {content.galleryButtonLabel}
             </LinkButton>
 
             <LinkButton
@@ -50,20 +47,18 @@ export default function ImpactSection() {
               variant="secondary"
               icon={Handshake}
             >
-              Partner with us
+              {content.partnerButtonLabel}
             </LinkButton>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-2">
-          {impactStats.map((stat) => (
-            <ImpactStatsCard
-              key={stat.label}
-              number={stat.number}
-              label={stat.label}
-            />
+        <Stagger className="grid shrink-0 grid-cols-2">
+          {content.stats.map((stat) => (
+            <StaggerItem key={stat.id}>
+              <ImpactStatsCard number={stat.number} label={stat.label} />
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Container>
     </section>
   );

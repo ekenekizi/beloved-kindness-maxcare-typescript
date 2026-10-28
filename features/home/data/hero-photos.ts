@@ -9,9 +9,11 @@ import communityGroup from "@/public/images/hero/heroGallery-1.jpg";
 export type HeroPhoto = {
   id: string;
   title: string;
-  src: StaticImageData;
+  src: string | StaticImageData;
   alt: string;
   rotation: string;
+  width?: number;
+  height?: number;
 };
 
 export const HERO_IMAGE_SIZES = [

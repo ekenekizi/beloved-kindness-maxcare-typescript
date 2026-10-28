@@ -6,13 +6,31 @@ import { motion, useReducedMotion, type Variants } from "motion/react";
 import Container from "@/components/ui/Container";
 import SectionLabel from "@/components/ui/SectionLabel";
 import LinkButton from "@/components/ui/LinkButton";
+import type { HomeAboutContent } from "../types";
 
 const copy: Variants = {
   hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0 },
 };
 
-export default function AboutSection() {
+const defaultContent: HomeAboutContent = {
+  label: "About Us",
+  headingStart: "Born Out of",
+  headingHighlight: "Deep Calling.",
+  headingEnd: "to Serve",
+  description:
+    "Beloved Kindness Maxcare is a nonprofit organization committed to restoring dignity and creating lasting opportunities for vulnerable individuals and communities across Nigeria. We believe that every person deserves hope, support, and the chance to thrive.",
+  buttonLabel: "Our Story",
+  image: "/images/about/aboutImg.jpg",
+  imageAlt: "Beloved Kindness Maxcare community outreach",
+};
+
+export default function AboutSection({
+  content,
+}: {
+  content?: HomeAboutContent | null;
+}) {
+  const about = content ?? defaultContent;
   const reduceMotion = useReducedMotion();
 
   return (
@@ -30,7 +48,7 @@ export default function AboutSection() {
               transition={{ duration: 0.55 }}
               className="mb-7"
             >
-              <SectionLabel>About Us</SectionLabel>
+              <SectionLabel>{about.label}</SectionLabel>
             </motion.div>
 
             <motion.h2
@@ -39,10 +57,13 @@ export default function AboutSection() {
                 duration: 0.7,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="font-serif text-5xl leading-[0.95] font-black tracking-tight uppercase sm:text-6xl lg:text-7xl"
+              className="font-serif text-3xl leading-[1.08] font-black tracking-tight uppercase sm:text-4xl lg:text-5xl"
             >
-              Born Out of
-              <span className="text-primary block">Deep Calling.</span> to Serve
+              {about.headingStart}
+              <span className="text-primary block">
+                {about.headingHighlight}
+              </span>{" "}
+              {about.headingEnd}
             </motion.h2>
 
             <motion.p
@@ -50,11 +71,7 @@ export default function AboutSection() {
               transition={{ duration: 0.65 }}
               className="mt-7 max-w-xl text-base leading-8 text-slate-600 lg:text-lg"
             >
-              Beloved Kindness Maxcare is a nonprofit organization committed to
-              restoring dignity and creating lasting opportunities for
-              vulnerable individuals and communities across Nigeria. We believe
-              that every person deserves hope, support, and the chance to
-              thrive.
+              {about.description}
             </motion.p>
 
             <motion.div
@@ -67,7 +84,7 @@ export default function AboutSection() {
                 icon={ArrowRight}
                 iconPosition="right"
               >
-                Our Story
+                {about.buttonLabel}
               </LinkButton>
 
               <button
@@ -86,7 +103,7 @@ export default function AboutSection() {
             </motion.div>
           </motion.div>
 
-          <div className="relative">
+          <div className="relative mx-auto w-full max-w-lg lg:max-w-[490px]">
             <motion.div
               initial={
                 reduceMotion ? false : { opacity: 0, y: 35, scale: 0.97 }
@@ -99,9 +116,9 @@ export default function AboutSection() {
               }}
             >
               <CurvedImage
-                src="/images/about/aboutImg.jpg"
-                alt="Beloved Kindness Maxcare community outreach"
-                sizes="(min-width: 1280px) 560px, (min-width: 1024px) calc(50vw - 80px), calc(100vw - 48px)"
+                src={about.image}
+                alt={about.imageAlt}
+                sizes="(min-width: 1140px) 490px, (min-width: 1024px) calc((100vw - 160px) / 2), (min-width: 560px) 512px, calc(100vw - 48px)"
               />
             </motion.div>
           </div>

@@ -6,13 +6,27 @@ import HeroGallery from "./HeroGallery";
 import LinkButton from "@/components/ui/LinkButton";
 import { heroPhotos } from "../data/hero-photos";
 import "./HomePage.css";
-
+import type { HomeHeroContent } from "../types";
 const rise = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
 };
 
-function HeroSection() {
+const defaultContent: HomeHeroContent = {
+  eyebrow: "Small acts. Lasting change.",
+  headingFirstLine: "Restoring hope.",
+  headingHighlight: "Transforming",
+  headingEnding: "lives.",
+  description:
+    "Supporting vulnerable communities through compassion, education, empowerment, and sustainable humanitarian action across Nigeria.",
+  primaryButtonLabel: "Donate",
+  secondaryButtonLabel: "Become a Volunteer",
+  footnote: "Compassion in action. Hope in every community.",
+  photos: heroPhotos,
+};
+
+function HeroSection({ content }: { content?: HomeHeroContent | null }) {
+  const hero = content ?? defaultContent;
   const reduceMotion = useReducedMotion();
   const initial = reduceMotion ? false : "hidden";
 
@@ -27,7 +41,7 @@ function HeroSection() {
           transition={{ duration: 0.5 }}
         >
           <Heart size={15} aria-hidden="true" />
-          Small acts. Lasting change.
+          {hero.eyebrow}
         </motion.p>
 
         <motion.h1
@@ -38,9 +52,9 @@ function HeroSection() {
           animate="visible"
           transition={{ duration: 0.7, delay: 0.12, ease: "easeOut" }}
         >
-          Restoring hope.
+          {hero.headingFirstLine}
           <br />
-          <span>Transforming</span> lives.
+          <span>{hero.headingHighlight}</span> {hero.headingEnding}
         </motion.h1>
 
         <motion.p
@@ -50,8 +64,7 @@ function HeroSection() {
           animate="visible"
           transition={{ duration: 0.6, delay: 0.28 }}
         >
-          Supporting vulnerable communities through compassion, education,
-          empowerment, and sustainable humanitarian action across Nigeria.
+          {hero.description}
         </motion.p>
 
         <motion.div
@@ -61,15 +74,21 @@ function HeroSection() {
           animate="visible"
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <LinkButton href="/get-involved/donate" icon={Heart}>Donate</LinkButton>
+          <LinkButton href="/get-involved/donate" icon={Heart}>
+            {hero.primaryButtonLabel}
+          </LinkButton>
 
-          <LinkButton href="/get-involved/volunteer" icon={ArrowRight} variant="secondary">
-            Become a Volunteer
+          <LinkButton
+            href="/get-involved/volunteer"
+            icon={ArrowRight}
+            variant="secondary"
+          >
+            {hero.secondaryButtonLabel}
           </LinkButton>
         </motion.div>
       </div>
 
-      <HeroGallery photos={heroPhotos} />
+      <HeroGallery photos={hero.photos} />
 
       <motion.div
         className="hero-footnote"
@@ -78,7 +97,7 @@ function HeroSection() {
         transition={{ duration: 0.6, delay: 1 }}
       >
         <span aria-hidden="true" />
-        Compassion in action. Hope in every community.
+        {hero.footnote}
         <span aria-hidden="true" />
       </motion.div>
     </section>
