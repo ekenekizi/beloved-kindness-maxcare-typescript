@@ -4,6 +4,7 @@ export type TransformationStory = {
   category: string;
   location: string;
   image: string;
+  imageAlt?: string;
   before: string;
   after: string;
   quote: string;

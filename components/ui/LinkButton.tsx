@@ -49,7 +49,7 @@ export default function LinkButton({
       href={href}
       target={newTab ? "_blank" : undefined}
       rel={newTab ? "noopener noreferrer" : undefined}
-      className="group relative flex cursor-pointer touch-manipulation border-0 bg-transparent p-0 outline-offset-4 transition-[filter] duration-250 select-none hover:brightness-110 focus:not-focus-visible:outline-none"
+      className="group relative flex w-fit max-w-full cursor-pointer touch-manipulation border-0 bg-transparent p-0 outline-offset-4 transition-[filter] duration-250 select-none hover:brightness-110 focus:not-focus-visible:outline-none"
     >
       <span
         aria-hidden="true"

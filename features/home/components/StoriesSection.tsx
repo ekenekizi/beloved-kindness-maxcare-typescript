@@ -7,12 +7,14 @@ import HTMLFlipBook, {
 } from "@gullabs/react-flipbook";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useReducedMotion } from "motion/react";
-
+import { Reveal } from "@/components/animation/HomepageMotion";
 import type { TransformationStory } from "../data/transformation-stories";
 import BookPage from "./BookPage";
+import { defaultStoriesIntro, type StoriesIntro } from "../data/stories-intro";
 import "./StoriesSection.css";
 
 type StoriesSectionProps = {
+  intro?: StoriesIntro;
   stories: TransformationStory[];
 };
 
@@ -22,7 +24,10 @@ function subscribeToScreen(callback: () => void) {
   return () => window.removeEventListener("resize", callback);
 }
 
-export default function StoriesSection({ stories }: StoriesSectionProps) {
+export default function StoriesSection({
+  stories,
+  intro = defaultStoriesIntro,
+}: StoriesSectionProps) {
   const bookRef = useRef<FlipBookHandle>(null);
   const reduceMotion = useReducedMotion();
 
@@ -69,18 +74,17 @@ export default function StoriesSection({ stories }: StoriesSectionProps) {
       aria-labelledby="stories-heading"
       id="stories"
     >
-      <header className="stories-heading">
-        <p className="stories-eyebrow">Real people, real change</p>
+      <Reveal>
+        <header className="stories-heading">
+          <p className="stories-eyebrow">{intro.label}</p>
 
-        <h2 id="stories-heading">
-          Stories of <span>Transformation</span>
-        </h2>
+          <h2 id="stories-heading">
+            {intro.heading} <span>{intro.headingHighlight}</span>
+          </h2>
 
-        <p>
-          Behind every statistic is a living, breathing story of courage,
-          resilience, and renewed hope.
-        </p>
-      </header>
+          <p>{intro.description}</p>
+        </header>
+      </Reveal>
 
       {showReadingView ? (
         <div className="stories-reading-view">
@@ -189,7 +193,7 @@ export default function StoriesSection({ stories }: StoriesSectionProps) {
             </button>
           </nav>
 
-          <p className="story-book-hint">A new chapter is a page turn away.</p>
+          <p className="story-book-hint">{intro.footnote}</p>
         </>
       )}
 

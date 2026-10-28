@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { getMembershipContent } from "@/sanity/lib/get-membership-content";
+import { getHomeYouth } from "@/sanity/lib/get-home-youth";
+import { getHomePrograms } from "@/sanity/lib/get-home-programs";
 
 import { siteConfig } from "@/config/site";
 
@@ -8,9 +11,11 @@ import ImpactSection from "@/features/home/components/ImpactSection";
 import ProgramSection from "@/features/home/components/ProgramSection";
 import StoriesSection from "@/features/home/components/StoriesSection";
 import YouthDevelopmentSection from "@/features/home/components/YouthDevelopmentSection";
-import PartnerWithUsSection from "@/features/home/components/PartnerWithUsSection";
-
-import { transformationStories } from "@/features/home/data/transformation-stories";
+import MembershipSection from "@/features/get-involved/components/MembershipSection";
+import { getTransformationStories } from "@/sanity/lib/get-stories";
+import { getHomeHero } from "@/sanity/lib/get-home-hero";
+import { getHomeAbout } from "@/sanity/lib/get-home-about";
+import { getHomeImpact } from "@/sanity/lib/get-home-impact";
 
 const homeTitle = `${siteConfig.name} | NGO in Nigeria`;
 
@@ -56,7 +61,17 @@ const organizationJsonLd = {
   logo: new URL("/images/logo.png", siteConfig.url).href,
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [stories, homeHero, homeAbout, homeImpact, homePrograms, homeYouth, membershipContent] = await Promise.all([
+    getTransformationStories(),
+    getHomeHero(),
+    getHomeAbout(),
+    getHomeImpact(),
+    getHomePrograms(),
+    getHomeYouth(),
+    getMembershipContent(),
+  ]);
+
   return (
     <>
       <script
@@ -66,13 +81,13 @@ export default function HomePage() {
         }}
       />
 
-      <HeroSection />
-      <AboutSection />
-      <ImpactSection />
-      <ProgramSection />
-      <StoriesSection stories={transformationStories} />
-      <YouthDevelopmentSection gRoleUrl="https://thegroleafrica.org/" />
-      <PartnerWithUsSection />
+      <HeroSection content={homeHero} />
+      <AboutSection content={homeAbout} />
+      <ImpactSection content={homeImpact} />
+      <ProgramSection content={homePrograms} />
+      {stories.length > 0 && <StoriesSection stories={stories} />}
+      <YouthDevelopmentSection content={homeYouth} />
+      <MembershipSection content={membershipContent} />
     </>
   );
 }

@@ -54,8 +54,10 @@ const BookPage = forwardRef<HTMLElement, BookPageProps>(function BookPage(
 
           <div className="story-photo">
             <Image
+              unoptimized
               src={story.image}
-              alt=""
+
+              alt={story.imageAlt ?? ""}
               fill
               sizes={
                 interactive

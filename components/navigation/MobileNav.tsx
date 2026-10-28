@@ -12,7 +12,7 @@ import type { Transition } from "motion/react";
 import ActiveLink from "./ActiveLink";
 import { ChevronDown, Heart, X } from "lucide-react";
 import { navigationLinks } from "@/config/navigation";
-
+import { toHref } from "@/lib/navigation";
 import "./MobileNav.css";
 
 function MobileNav({
@@ -177,7 +177,7 @@ function MobileNav({
                       >
                         <div className="flex items-center gap-2 py-1">
                           <ActiveLink
-                            href={`/${link.path}`}
+                            href={toHref(link.submenu?.[0]?.path ?? link.path)}
                             onClick={closeMenu}
                             className={({ isActive }) =>
                               `flex-1 rounded-lg py-4 text-lg font-semibold tracking-tight ${isActive ? "text-primary" : "hover:text-primary text-slate-800"}`
@@ -222,7 +222,7 @@ function MobileNav({
                               {link.submenu.map((item) => (
                                 <li key={item.path}>
                                   <ActiveLink
-                                    href={`/${item.path}`}
+                                    href={toHref(item.path)}
                                     onClick={closeMenu}
                                     className={linkClass}
                                   >

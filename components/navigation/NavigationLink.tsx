@@ -12,7 +12,7 @@ function NavigationLink({ path, label, icon, submenu }: NavigationItem) {
   const pathname = usePathname();
 
   const Icon = icon;
-  const absolutePath = `/${path.replace(/^\/+/, "")}`;
+  const absolutePath = toHref(submenu?.[0]?.path ?? path);
 
   const isSubmenuActive = submenu?.some((item) =>
     isActiveRoute(pathname, toHref(item.path)),
@@ -25,7 +25,8 @@ function NavigationLink({ path, label, icon, submenu }: NavigationItem) {
       onMouseLeave={() => setIsHovered(false)}
       onFocusCapture={() => setIsHovered(true)}
       onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setIsHovered(false);
+        if (!event.currentTarget.contains(event.relatedTarget))
+          setIsHovered(false);
       }}
       onKeyDown={(event) => {
         if (event.key === "Escape") setIsHovered(false);

@@ -49,12 +49,8 @@ export const navigationLinks: NavigationItem[] = [
         path: "programs/widow",
       },
       {
-        label: "Youth & Counselling",
-        path: "programs/youth",
-      },
-      {
-        label: "Community Outreach",
-        path: "programs/community",
+        label: "Christmas party",
+        path: "programs/party",
       },
     ],
   },
@@ -87,4 +83,3 @@ export const navigationLinks: NavigationItem[] = [
     path: "gallery",
   },
 ];
-
