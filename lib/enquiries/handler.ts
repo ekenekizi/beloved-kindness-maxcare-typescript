@@ -2,6 +2,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 import {
   SubmissionError,
+  validateCounselling,
   validateMembership,
   validatePartnership,
 } from "./validation";
@@ -93,7 +94,9 @@ export async function handleEnquiry(
     const enquiry =
       kind === "membership"
         ? validateMembership(envelope.data)
-        : validatePartnership(envelope.data);
+        : kind === "counselling"
+          ? validateCounselling(envelope.data)
+          : validatePartnership(envelope.data);
     await sendEnquiry(kind, enquiry, envelope.submissionId);
     return Response.json(
       { success: true },

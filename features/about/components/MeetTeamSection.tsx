@@ -1,7 +1,7 @@
 "use client";
 
 import { Reveal } from "@/components/animation/HomepageMotion";
-import Image from "next/image";
+import Image from "@/components/ui/ResponsiveImage";
 import { useEffect, useId, useRef, useState } from "react";
 import { ArrowRight, X } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
@@ -82,9 +82,7 @@ export default function MeetTeamSection({ content }: { content: TeamContent }) {
                   src={person.image}
                   alt={person.imageAlt}
                   fill
-                  unoptimized={person.image.startsWith(
-                    "https://cdn.sanity.io/",
-                  )}
+                  
                   sizes="(min-width: 1280px) 359px, (min-width: 1024px) calc((100vw - 200px) / 3), (min-width: 640px) calc((100vw - 120px) / 2), calc(100vw - 64px)"
                   loading={index === 0 ? "eager" : "lazy"}
                   className="object-cover object-top"
@@ -166,9 +164,7 @@ export default function MeetTeamSection({ content }: { content: TeamContent }) {
                   src={member.image}
                   alt={member.imageAlt}
                   fill
-                  unoptimized={member.image.startsWith(
-                    "https://cdn.sanity.io/",
-                  )}
+                  
                   sizes="(min-width: 640px) 260px, 220px"
                   className="object-cover object-top"
                 />

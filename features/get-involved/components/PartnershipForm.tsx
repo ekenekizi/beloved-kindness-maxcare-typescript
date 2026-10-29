@@ -1,5 +1,7 @@
 "use client";
 
+import { useFormStepFocus } from "@/lib/use-form-step-focus";
+
 import { Reveal } from "@/components/animation/HomepageMotion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useForm, type FieldError } from "react-hook-form";
@@ -127,7 +129,7 @@ export default function PartnershipForm({
   const sending = useRef(false);
   const submissionId = useRef<string | null>(null);
   const honeypot = useRef<HTMLInputElement>(null);
-  const successRef = useRef<HTMLParagraphElement>(null);
+  const successRef = useFormStepFocus<HTMLParagraphElement>(submitted);
   const [selectedAreas, setSelectedAreas] = useState<PartnershipArea[]>([
     "orphanage",
   ]);
@@ -213,7 +215,7 @@ export default function PartnershipForm({
       setSubmitted(true);
       dialogRef.current?.close();
       setReview(null);
-      requestAnimationFrame(() => successRef.current?.focus());
+
     } catch (error) {
       setSubmitError(
         error instanceof Error
@@ -241,7 +243,7 @@ export default function PartnershipForm({
             ref={successRef}
             tabIndex={-1}
             role="status"
-            className="mb-6 rounded-xl bg-green-50 p-4 text-sm text-green-800"
+            className="mb-6 scroll-mt-32 rounded-xl bg-green-50 p-4 text-sm text-green-800"
           >
             Thank you! Your partnership enquiry has been submitted.
           </p>
@@ -293,6 +295,7 @@ export default function PartnershipForm({
 
                 <span className="partnership-choice-foot">
                   {content.orphanageFootnote}
+                  <span className="mt-3 block text-sm font-semibold text-primary">{orphanageSelected ? "✓ Selected · click to remove" : "+ Select this support area"}</span>
                 </span>
               </span>
 
@@ -323,6 +326,7 @@ export default function PartnershipForm({
 
                 <span className="partnership-choice-foot">
                   {content.widowFootnote}
+                  <span className="mt-3 block text-sm font-semibold text-primary">{widowsSelected ? "✓ Selected · click to remove" : "+ Select this support area"}</span>
                 </span>
               </span>
 
@@ -499,6 +503,21 @@ export default function PartnershipForm({
                   : "Choose a partnership area above to begin."}
               </p>
 
+              {!orphanageSelected && (
+                <div className="mt-5 rounded-xl border-2 border-dashed border-blue-200 bg-blue-50 p-4">
+                  <p className="text-sm font-semibold text-foreground">Orphanage homes is not selected</p>
+                  <p className="mt-1 text-sm leading-6 text-muted">Add this area to choose its support options. You can support both areas.</p>
+                  <button
+                    type="button"
+                    aria-controls="orphanage-support-fields"
+                    onClick={() => toggleArea("orphanage")}
+                    className="mt-3 inline-flex min-h-11 items-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                  >
+                    + Add orphanage homes
+                  </button>
+                </div>
+              )}
+
               <fieldset
                 id="orphanage-support-fields"
                 className="partnership-support-group"
@@ -566,6 +585,21 @@ export default function PartnershipForm({
                   ))}
                 </div>
               </fieldset>
+
+              {!widowsSelected && (
+                <div className="mt-5 rounded-xl border-2 border-dashed border-blue-200 bg-blue-50 p-4">
+                  <p className="text-sm font-semibold text-foreground">Widow empowerment is not selected</p>
+                  <p className="mt-1 text-sm leading-6 text-muted">Add this area to choose its support options. You can support both areas.</p>
+                  <button
+                    type="button"
+                    aria-controls="widow-support-fields"
+                    onClick={() => toggleArea("widows")}
+                    className="mt-3 inline-flex min-h-11 items-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                  >
+                    + Add widow empowerment
+                  </button>
+                </div>
+              )}
 
               <fieldset
                 id="widow-support-fields"

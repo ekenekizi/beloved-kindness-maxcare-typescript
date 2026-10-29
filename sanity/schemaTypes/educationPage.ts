@@ -23,7 +23,7 @@ const { imageAlt, ...heroDefaults } = defaultEducationContent.hero;
 
 export const educationPageType = defineType({
   name: "educationPage",
-  title: "Education programme page",
+  title: "Education & Child Counselling page",
   type: "document",
   initialValue: {
     hero: { ...heroDefaults, image: { _type: "image", alt: imageAlt } },
@@ -164,6 +164,6 @@ export const educationPageType = defineType({
     }),
   ],
   preview: {
-    prepare: () => ({ title: "Education", subtitle: "/programs/education" }),
+    prepare: () => ({ title: "Education & Child Counselling", subtitle: "/programs/education" }),
   },
 });

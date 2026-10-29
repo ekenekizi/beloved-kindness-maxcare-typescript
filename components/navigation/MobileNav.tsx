@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import logo from "@/public/images/logo.png";
+import logo from "@/public/images/logo-small.png";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
@@ -14,11 +14,15 @@ import { ChevronDown, Heart, X } from "lucide-react";
 import { navigationLinks } from "@/config/navigation";
 import { toHref } from "@/lib/navigation";
 import "./MobileNav.css";
+import SocialIcons from "./SocialLinks";
+import type { SocialLinks } from "@/features/site/social-links";
 
 function MobileNav({
   isMenuOpen,
   setIsMenuOpen,
+  socialLinks = {},
 }: {
+  socialLinks?: SocialLinks;
   isMenuOpen: boolean;
   setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -56,7 +60,7 @@ function MobileNav({
     }
     if (!dialog.open) dialog.showModal();
 
-    const desktopQuery = window.matchMedia("(min-width: 64rem)");
+    const desktopQuery = window.matchMedia("(min-width: 80rem)");
     const closeOnDesktop = () => {
       if (desktopQuery.matches) setIsMenuOpen(false);
     };
@@ -240,6 +244,7 @@ function MobileNav({
               </nav>
 
               <div className="mobile-nav-footer border-t border-slate-200/70 bg-slate-50 px-6 pt-5">
+                <SocialIcons links={socialLinks} className="mb-3" />
                 <p className="mb-4 text-sm leading-relaxed text-slate-500">
                   A little kindness can make a lasting difference.
                 </p>

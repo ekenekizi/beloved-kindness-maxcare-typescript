@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import logo from "@/public/images/logo.png";
+import logo from "@/public/images/logo-small.png";
 
 function Logo() {
   return (
@@ -9,6 +9,7 @@ function Logo() {
         src={logo}
         alt="Beloved Kindness Maxcare"
         sizes="56px"
+        loading="eager"
         className="h-auto w-full"
       />
     </Link>

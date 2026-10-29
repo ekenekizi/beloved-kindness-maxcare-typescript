@@ -1,5 +1,5 @@
 export const galleryProgrammes = [
-  { value: "education", title: "Education" },
+  { value: "education", title: "Education & Child Counselling" },
   { value: "orphanage", title: "Orphanage Support" },
   { value: "widow", title: "Widow Empowerment" },
   { value: "party", title: "Christmas Party" },

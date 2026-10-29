@@ -1,22 +1,12 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Geist, Geist_Mono } from "next/font/google";
 
 import "../globals.css";
 
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import { getSocialLinks } from "@/sanity/lib/get-site-settings";
 import { siteConfig } from "@/config/site";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -28,15 +18,16 @@ export const metadata: Metadata = {
   applicationName: siteConfig.name,
 };
 
-export default function SiteLayout({ children }: { children: ReactNode }) {
+export default async function SiteLayout({ children }: { children: ReactNode }) {
+  const socialLinks = await getSocialLinks();
   return (
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased motion-reduce:scroll-auto`}
+      className="h-full scroll-smooth antialiased motion-reduce:scroll-auto"
     >
       <body className="min-h-full flex flex-col">
-        <Header />
+        <Header socialLinks={socialLinks} />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>

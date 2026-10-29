@@ -1,6 +1,6 @@
 import { Reveal } from "@/components/animation/HomepageMotion";
 import type { Metadata } from "next";
-import Image from "next/image";
+import Image from "@/components/ui/ResponsiveImage";
 import { HeartHandshake, House, Sprout, UsersRound } from "lucide-react";
 import { donationCauses } from "@/features/get-involved/data/donation-options";
 import SectionLabel from "@/components/ui/SectionLabel";
@@ -84,9 +84,7 @@ export default async function DonatePage({ searchParams }: DonatePageProps) {
               <div className="relative h-[290px] overflow-hidden rounded-[1.75rem] sm:h-[340px] lg:h-[290px]">
                 <Image
                   src={content.hero.image}
-                  unoptimized={content.hero.image.startsWith(
-                    "https://cdn.sanity.io/",
-                  )}
+                  
                   alt={content.hero.imageAlt}
                   fill
                   sizes="(min-width: 1120px) 500px, (min-width: 1024px) 46vw, calc(100vw - 40px)"

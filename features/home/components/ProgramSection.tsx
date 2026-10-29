@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 import SectionLabel from "@/components/ui/SectionLabel";
 import LinkButton from "@/components/ui/LinkButton";
-import Image from "next/image";
+import Image from "@/components/ui/ResponsiveImage";
 import { Reveal } from "@/components/animation/HomepageMotion";
 import type { HomeProgramsContent } from "../types";
 
@@ -83,7 +83,7 @@ export default function ProgramSection({ content }: { content: HomeProgramsConte
                     src={program.image}
                     alt={program.imageAlt}
                     fill
-                    unoptimized={program.image.startsWith("https://cdn.sanity.io/")}
+                    
                     sizes={
                       isFeatured
                         ? "(min-width: 1440px) 335px, (min-width: 1024px) calc(25vw - 30px), calc(100vw - 48px)"

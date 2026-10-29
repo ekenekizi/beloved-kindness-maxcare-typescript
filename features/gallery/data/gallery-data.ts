@@ -30,7 +30,7 @@ import widowSupport7Img from "@/public/images/gallery/2023empowerment-7.jpeg";
 export const galleryCategories: GalleryCategory[] = [
   {
     id: "education",
-    label: "Education",
+    label: "Education & Child Counselling",
     description: "Opening doors through learning, one child at a time.",
 
     photos: [

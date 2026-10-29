@@ -35,12 +35,12 @@ export const educationDonationHref =
 
 export const defaultEducationContent: EducationContent = {
   hero: {
-    label: "Education & school fees",
+    label: "Education & Child Counselling",
     heading: "Back to school.",
     highlightFirstLine: "Forward",
     highlightSecondLine: "to possibility.",
     description:
-      "Help children return to the classroom, stay in school and take their next step with confidence. We support families with school fees and the essentials every child needs to learn.",
+      "Support for learning. Space to be heard. We help children access education and offer counselling with qualified counsellors to support their wellbeing, confidence and personal growth.",
     donateButtonLabel: "Support this vision",
     galleryLinkLabel: "See their journey",
     image: "/images/gallery/educationImg2.webp",

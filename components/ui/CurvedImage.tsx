@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import Image from "@/components/ui/ResponsiveImage";
 import { useId, type CSSProperties } from "react";
 
 type CurvedImageProps = {
@@ -44,7 +44,7 @@ export default function CurvedImage({
         <Image
           src={src}
           alt={alt}
-          unoptimized={src.startsWith("https://cdn.sanity.io/")}
+          
           fill
           sizes={sizes}
           loading={loading}

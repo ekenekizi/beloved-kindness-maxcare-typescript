@@ -37,7 +37,7 @@ export const navigationLinks: NavigationItem[] = [
     icon: ChevronDown,
     submenu: [
       {
-        label: "Education",
+        label: "Education & Child Counselling",
         path: "programs/education",
       },
       {

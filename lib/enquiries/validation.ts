@@ -230,3 +230,26 @@ export function validatePartnership(input: unknown): ValidatedEnquiry {
   }
   return { replyTo, fields };
 }
+
+export function validateCounselling(input: unknown): ValidatedEnquiry {
+  const data = object(input);
+  if (data.guardian !== true || data.consent !== true)
+    throw new SubmissionError("Please confirm guardianship and consent to being contacted.");
+  const age = data.childAge;
+  if (typeof age !== "number" || !Number.isInteger(age) || age < 0 || age > 17)
+    throw new SubmissionError("Please enter the child's age, from 0 to 17.");
+  const replyTo = email(data);
+  return {
+    replyTo,
+    fields: [
+      { label: "Parent / guardian", value: text(data, "parentName", "Parent or guardian name") },
+      { label: "Email", value: replyTo },
+      { label: "Phone", value: text(data, "phone", "Phone") },
+      { label: "Child's first name", value: text(data, "childFirstName", "Child's first name", true, 80) },
+      { label: "Child's age", value: String(age) },
+      { label: "Preferred contact", value: option(data, "contactMethod", "Preferred contact", ["Email", "Phone"], true) },
+      { label: "Guardian confirmation", value: "Confirmed by applicant" },
+      { label: "Contact consent", value: "Agreed to use these details to respond to this counselling enquiry" },
+    ],
+  };
+}

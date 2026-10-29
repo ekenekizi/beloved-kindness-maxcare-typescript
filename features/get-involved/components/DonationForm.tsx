@@ -1,5 +1,7 @@
 "use client";
 
+import { useFormStepFocus } from "@/lib/use-form-step-focus";
+
 import { Reveal } from "@/components/animation/HomepageMotion";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -67,6 +69,7 @@ export default function DonationForm({
   const [cause, setCause] = useState<string>(initialCause);
   const [amountError, setAmountError] = useState("");
   const [review, setReview] = useState<GiftReview | null>(null);
+  const reviewRef = useFormStepFocus<HTMLHeadingElement>(review);
 
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
@@ -175,6 +178,8 @@ export default function DonationForm({
         result?.code === "ALREADY_PAID" &&
         typeof result?.reference === "string"
       ) {
+        // Reload intentionally clears busy checkout state before showing a paid result.
+        // eslint-disable-next-line @next/next/no-location-assign-relative-destination
         window.location.assign(
           "/get-involved/donate?reference=" +
             encodeURIComponent(result.reference),
@@ -462,7 +467,7 @@ export default function DonationForm({
           aria-busy={isRedirecting}
           className="mt-5 rounded-xl bg-blue-50 p-4 sm:p-5"
         >
-          <h3 id="gift-summary-heading" className="text-sm font-bold">
+          <h3 id="gift-summary-heading" ref={reviewRef} tabIndex={-1} className="scroll-mt-32 text-sm font-bold">
             Your gift summary
           </h3>
 

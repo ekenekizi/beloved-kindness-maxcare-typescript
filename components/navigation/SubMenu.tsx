@@ -50,7 +50,7 @@ function SubMenu({ items, isHovered }: { items: NonNullable<NavigationItem["subm
                     `block rounded-md px-4 py-3 transition-colors ${
                       isActive
                         ? "bg-primary/10 text-primary font-semibold"
-                        : "text-gray-700 hover:bg-gray-100"
+                        : "text-gray-700 hover:bg-primary/5 hover:text-primary focus-visible:bg-primary/5 focus-visible:text-primary"
                     }`
                   }
                 >

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/ResponsiveImage";
 import { useId } from "react";
 import { ArrowDown, HeartHandshake, MapPin } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "motion/react";
@@ -144,9 +144,7 @@ export default function OurStorySection({
               >
                 <Image
                   src={content.image}
-                  unoptimized={content.image.startsWith(
-                    "https://cdn.sanity.io/",
-                  )}
+                  
                   alt={content.imageAlt}
                   fill
                   sizes="(min-width: 1280px) 560px, (min-width: 1024px) calc((100vw - 160px) / 2), (min-width: 624px) 576px, calc(100vw - 48px)"
