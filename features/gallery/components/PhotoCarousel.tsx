@@ -358,14 +358,14 @@ export default function PhotoCarousel({
       aria-roledescription="carousel"
       aria-label={label}
       onKeyDown={handleKeyDown}
-      className="mx-auto max-w-5xl"
+      className="mx-auto w-full min-w-0 max-w-5xl"
     >
       <motion.div
         ref={stageRef}
         onPanStart={handlePanStart}
         onPan={handlePan}
         onPanEnd={handlePanEnd}
-        className="relative isolate h-[280px] touch-pan-y select-none [perspective:1100px] sm:h-[344px] lg:h-[384px]"
+        className="relative isolate h-[280px] overflow-x-clip touch-pan-y select-none [perspective:1100px] sm:h-[344px] lg:h-[384px]"
       >
         <div
           aria-hidden="true"

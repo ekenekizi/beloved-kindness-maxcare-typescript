@@ -44,10 +44,10 @@ export default async function WidowPage() {
   const widowGallery = getLatestProgrammeAlbum(galleryCategories, "widow");
 
   return (
-    <div className="bg-background pt-24 text-foreground">
+    <div className="min-w-0 w-full bg-background pt-24 text-foreground">
       {/* Hero */}
       <header className="mx-auto max-w-[1120px] px-5 py-12 sm:px-6 sm:py-16 lg:px-10">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.03fr_1fr] lg:gap-12">
+        <div className="grid min-w-0 grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1.03fr)_minmax(0,1fr)] lg:gap-12">
           <Reveal as="div" className="min-w-0">
             <SectionLabel>{content.hero.label}</SectionLabel>
 
@@ -92,7 +92,7 @@ export default async function WidowPage() {
             as="figure"
             image
             delay={0.12}
-            className="relative isolate mx-auto w-full max-w-lg pb-8"
+            className="relative isolate mx-auto w-full min-w-0 max-w-lg pb-8"
           >
             <CurvedImage
               src={content.hero.image}
@@ -180,7 +180,7 @@ export default async function WidowPage() {
         className="bg-[#f7f5ef] py-12 sm:py-14"
       >
         <div className="mx-auto max-w-[1120px] px-5 sm:px-6 lg:px-10">
-          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+          <div className="grid min-w-0 grid-cols-1 gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14">
             <Reveal as="div">
               <SectionLabel>{content.purpose.label}</SectionLabel>
 
@@ -212,7 +212,7 @@ export default async function WidowPage() {
 
           <Reveal
             as="aside"
-            className="mt-10 grid items-center gap-6 rounded-2xl bg-[#132e53] p-6 text-white sm:p-8 lg:grid-cols-[1.3fr_1fr]"
+            className="mt-10 grid min-w-0 grid-cols-1 items-center gap-6 rounded-2xl bg-[#132e53] p-6 text-white sm:p-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]"
           >
             <div>
               <h3 className="font-serif text-2xl leading-tight font-bold tracking-tight sm:text-3xl">
