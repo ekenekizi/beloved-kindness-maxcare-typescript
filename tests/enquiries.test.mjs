@@ -267,3 +267,43 @@ test("provider failure and missing credentials return generic errors without rep
   );
   assert.equal(unavailable.status, 503);
 });
+
+const counselling = {
+  parentName: "Example Guardian", email: "parent@example.com", phone: "+2348000000000",
+  childFirstName: "Example", childAge: 9, contactMethod: "Email", guardian: true, consent: true,
+};
+test("counselling request requires a dedicated inbox and never falls back to the general inbox", async (t) => {
+  environment(t);
+  const previous = process.env.COUNSELLING_EMAIL_TO;
+  delete process.env.COUNSELLING_EMAIL_TO;
+  t.after(() => { if (previous === undefined) delete process.env.COUNSELLING_EMAIL_TO; else process.env.COUNSELLING_EMAIL_TO = previous; });
+  const m = modules();
+  const { POST } = m.load("app/api/counselling/route.ts");
+  const response = await POST(request(envelope(counselling)));
+  assert.equal(response.status, 503);
+  assert.equal(m.calls.length, 0);
+});
+test("counselling enquiry sends only the intake fields to its designated recipient", async (t) => {
+  environment(t);
+  const previous = process.env.COUNSELLING_EMAIL_TO;
+  process.env.COUNSELLING_EMAIL_TO = "counsellor@example.com";
+  t.after(() => { if (previous === undefined) delete process.env.COUNSELLING_EMAIL_TO; else process.env.COUNSELLING_EMAIL_TO = previous; });
+  const m = modules();
+  const { POST } = m.load("app/api/counselling/route.ts");
+  const response = await POST(request(envelope({ ...counselling, diagnosis: "PRIVATE-UNEXPECTED-FIELD" })));
+  assert.equal(response.status, 200);
+  assert.deepEqual(m.calls[0].payload.to, ["counsellor@example.com"]);
+  assert.equal(m.calls[0].payload.replyTo, counselling.email);
+  assert.ok(m.calls[0].payload.subject.includes("counselling"));
+  assert.ok(m.calls[0].payload.text.includes(counselling.childFirstName));
+  assert.ok(!m.calls[0].payload.text.includes("PRIVATE-UNEXPECTED-FIELD"));
+});
+test("counselling validation rejects invalid ages, contact preferences and missing guardian consent", () => {
+  const { load } = modules();
+  const { validateCounselling, SubmissionError } = load("lib/enquiries/validation.ts");
+  for (const change of [
+    { childAge: -1 }, { childAge: 18 }, { childAge: 2.5 }, { childAge: "9" },
+    { childAge: null }, { guardian: false }, { consent: false },
+    { contactMethod: "unexpected" }, { phone: "1" }, { email: "invalid" }, { childFirstName: "" },
+  ]) assert.throws(() => validateCounselling({ ...counselling, ...change }), SubmissionError);
+});

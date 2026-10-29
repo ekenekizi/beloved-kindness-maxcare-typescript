@@ -6,7 +6,7 @@ import {
   type EmailField,
   type ValidatedEnquiry,
 } from "./validation";
-export type EnquiryKind = "membership" | "partnership";
+export type EnquiryKind = "membership" | "partnership" | "counselling";
 function escape(value: string): string {
   return value.replace(
     /[&<>"']/g,
@@ -20,7 +20,9 @@ export function formatEnquiry(kind: EnquiryKind, fields: EmailField[]) {
   const title =
     kind === "membership"
       ? "New membership / volunteer application"
-      : "New partnership enquiry";
+      : kind === "counselling"
+        ? "New child counselling request"
+        : "New partnership enquiry";
   return {
     subject: "BKM: " + title,
     text:
@@ -51,7 +53,7 @@ export async function sendEnquiry(
 ): Promise<void> {
   const key = process.env.RESEND_API_KEY,
     from = process.env.EMAIL_FROM,
-    to = process.env.EMAIL_TO;
+    to = kind === "counselling" ? process.env.COUNSELLING_EMAIL_TO : process.env.EMAIL_TO;
   if (
     !key ||
     !from ||

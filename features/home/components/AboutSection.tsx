@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowRight, CirclePlay } from "lucide-react";
 import CurvedImage from "@/components/ui/CurvedImage";
 import { motion, useReducedMotion, type Variants } from "motion/react";
@@ -87,10 +88,8 @@ export default function AboutSection({
                 {about.buttonLabel}
               </LinkButton>
 
-              <button
-                type="button"
-                disabled
-                title="Video coming soon"
+              <Link
+                href="/gallery?view=videos"
                 className="hover:text-primary group flex w-fit items-center gap-1 rounded-md border border-gray-300 px-2 py-1 transition-all duration-300 hover:border-primary md:py-2"
               >
                 Watch Our Video
@@ -99,7 +98,7 @@ export default function AboutSection({
                   size={18}
                   aria-hidden="true"
                 />
-              </button>
+              </Link>
             </motion.div>
           </motion.div>
 

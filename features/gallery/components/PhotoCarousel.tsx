@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/ResponsiveImage";
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import {
   animate,
@@ -132,10 +132,7 @@ function CarouselPhoto({
     >
       <Image
         src={photo.src}
-        unoptimized={
-          typeof photo.src === "string" &&
-          photo.src.startsWith("https://cdn.sanity.io/")
-        }
+        
         alt={photo.alt}
         fill
         sizes="(min-width: 1104px) 492px, (min-width: 640px) 48vw, 72vw"
@@ -186,7 +183,8 @@ export default function PhotoCarousel({
 
   const targetRef = useRef(0);
   const dragStartRef = useRef(0);
-  const ignoreClickUntilRef = useRef(0);
+  const ignoreClickRef = useRef(false);
+  const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isPanActiveRef = useRef(false);
   const isTransitioningRef = useRef(false);
 
@@ -224,7 +222,10 @@ export default function PhotoCarousel({
   }, [stageWidth, count]);
 
   useEffect(() => {
-    return () => animationRef.current?.stop();
+    return () => {
+      animationRef.current?.stop();
+      if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -289,7 +290,9 @@ export default function PhotoCarousel({
   function handlePan(_event: PointerEvent, info: PanInfo) {
     if (!isPanActiveRef.current) return;
 
-    ignoreClickUntilRef.current = Date.now() + 400;
+    ignoreClickRef.current = true;
+    if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+    clickTimerRef.current = setTimeout(() => { ignoreClickRef.current = false; }, 400);
 
     const dragDistance = Math.max(stageWidth.get() * 0.42, 1);
     const progress = info.offset.x / dragDistance;
@@ -302,7 +305,9 @@ export default function PhotoCarousel({
     if (!isPanActiveRef.current) return;
 
     isPanActiveRef.current = false;
-    ignoreClickUntilRef.current = Date.now() + 400;
+    ignoreClickRef.current = true;
+    if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+    clickTimerRef.current = setTimeout(() => { ignoreClickRef.current = false; }, 400);
 
     const threshold = stageWidth.get() * 0.12;
     const isSwipe =
@@ -316,7 +321,7 @@ export default function PhotoCarousel({
 
   function handlePhotoClick(index: number) {
     if (isTransitioningRef.current) return;
-    if (Date.now() < ignoreClickUntilRef.current) return;
+    if (ignoreClickRef.current) return;
 
     if (index === currentIndex) {
       setExpandedPhoto(photos[index]);
@@ -475,10 +480,7 @@ export default function PhotoCarousel({
             <div className="relative h-[70dvh] w-full">
               <Image
                 src={expandedPhoto.src}
-                unoptimized={
-                  typeof expandedPhoto.src === "string" &&
-                  expandedPhoto.src.startsWith("https://cdn.sanity.io/")
-                }
+                
                 alt={expandedPhoto.alt}
                 fill
                 sizes="(min-width: 1044px) 928px, 92vw"

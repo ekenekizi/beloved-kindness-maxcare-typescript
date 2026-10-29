@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/animation/HomepageMotion";
-import Image from "next/image";
+import Image from "@/components/ui/ResponsiveImage";
 import { Heart } from "lucide-react";
 
 import Container from "@/components/ui/Container";
@@ -65,9 +65,7 @@ export default function MakeItHappenSection({
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl lg:aspect-auto lg:min-h-72 lg:flex-1">
               <Image
                 src={featuredCard.image}
-                unoptimized={featuredCard.image.startsWith(
-                  "https://cdn.sanity.io/",
-                )}
+                
                 alt={featuredCard.imageAlt}
                 fill
                 sizes="(min-width: 1440px) 539px, (min-width: 1024px) calc((100vw - 96px) * 0.425 - 32px), calc(100vw - 80px)"
@@ -100,7 +98,7 @@ export default function MakeItHappenSection({
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl sm:aspect-auto sm:h-full sm:min-h-60">
                 <Image
                   src={card.image}
-                  unoptimized={card.image.startsWith("https://cdn.sanity.io/")}
+                  
                   alt={card.imageAlt}
                   fill
                   sizes="(min-width: 1440px) 402px, (min-width: 1024px) calc(((100vw - 96px) * 0.575 - 52px) * 0.55), (min-width: 640px) calc((100vw - 100px) * 0.55), calc(100vw - 80px)"

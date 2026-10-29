@@ -1,5 +1,7 @@
 "use client";
-import Image, { getImageProps } from "next/image";
+import Image from "@/components/ui/ResponsiveImage";
+import { getImageProps } from "next/image";
+import { isSanityImage, sanityImageLoader } from "@/lib/sanity-image-loader";
 import { preload } from "react-dom";
 import { HERO_IMAGE_SIZES } from "../data/hero-photos";
 import type { CSSProperties, UIEvent } from "react";
@@ -80,10 +82,7 @@ function AnimatedPhoto({
           src={item.src}
           width={item.width}
           height={item.height}
-          unoptimized={
-            typeof item.src === "string" &&
-            item.src.startsWith("https://cdn.sanity.io/")
-          }
+          
           alt={item.alt}
           sizes={index === 2 ? HERO_IMAGE_SIZES : `${imageWidth}px`}
           loading={desktop || index === 2 ? "eager" : "lazy"}
@@ -106,9 +105,7 @@ function HeroGallery({ photos }: { photos: HeroPhoto[] }) {
       width: initialPhoto.width,
       height: initialPhoto.height,
       sizes: HERO_IMAGE_SIZES,
-      unoptimized:
-        typeof initialPhoto.src === "string" &&
-        initialPhoto.src.startsWith("https://cdn.sanity.io/"),
+      loader: isSanityImage(initialPhoto.src) ? sanityImageLoader : undefined,
     });
 
     preload(props.src, {

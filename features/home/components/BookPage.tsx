@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import Image from "@/components/ui/ResponsiveImage";
 import { forwardRef } from "react";
 import { ArrowLeft, BookOpen, MapPin, MoveHorizontal } from "lucide-react";
 
@@ -54,7 +54,7 @@ const BookPage = forwardRef<HTMLElement, BookPageProps>(function BookPage(
 
           <div className="story-photo">
             <Image
-              unoptimized
+              
               src={story.image}
 
               alt={story.imageAlt ?? ""}

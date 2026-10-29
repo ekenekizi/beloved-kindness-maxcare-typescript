@@ -13,6 +13,7 @@ if (!projectId || !dataset) {
 }
 
 const singletonTypes = [
+  "siteSettings",
   "homePage",
   "ourStoryPage",
   "missionPage",
@@ -40,6 +41,10 @@ export default defineConfig({
         S.list()
           .title("Website content")
           .items([
+            S.listItem()
+              .id("site-settings")
+              .title("Site settings — social media")
+              .child(S.document().schemaType("siteSettings").documentId("site-settings")),
             S.listItem()
               .id("homepage-settings")
               .title("Homepage")
@@ -89,7 +94,7 @@ export default defineConfig({
                   .items([
                     S.listItem()
                       .id("education-settings")
-                      .title("Education")
+                      .title("Education & Child Counselling")
                       .child(
                         S.document()
                           .schemaType("educationPage")

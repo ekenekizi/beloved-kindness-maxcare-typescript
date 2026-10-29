@@ -36,7 +36,7 @@ function NavigationLink({ path, label, icon, submenu }: NavigationItem) {
         href={absolutePath}
         className={({ isActive }) =>
           `flex items-center gap-1 transition-colors ${
-            isActive || isSubmenuActive ? "text-primary" : "text-slate-700"
+            isActive || isSubmenuActive || isHovered ? "text-primary" : "text-slate-700 hover:text-primary focus-visible:text-primary"
           }`
         }
       >

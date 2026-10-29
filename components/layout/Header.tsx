@@ -5,11 +5,16 @@ import LinkButton from "@/components/ui/LinkButton";
 import NavigationLink from "../navigation/NavigationLink";
 import { Heart, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import MobileNav from "../navigation/MobileNav";
+import dynamic from "next/dynamic";
+const MobileNav = dynamic(() => import("../navigation/MobileNav"));
 import Logo from "./Logo";
 
-function Header() {
+import SocialIcons from "../navigation/SocialLinks";
+import type { SocialLinks } from "@/features/site/social-links";
+
+function Header({ socialLinks = {} }: { socialLinks?: SocialLinks }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [menuLoaded, setMenuLoaded] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -31,7 +36,7 @@ function Header() {
     >
       <Logo />
 
-      <nav className="hidden items-center gap-5 lg:flex">
+      <nav className="hidden items-center gap-5 xl:flex">
         {navigationLinks.map((link) => (
           <NavigationLink
             path={link.path}
@@ -44,15 +49,16 @@ function Header() {
       </nav>
 
       <div className="flex items-center gap-3">
+        <SocialIcons links={socialLinks} className="hidden xl:flex" />
         <LinkButton href="/get-involved/donate" icon={Heart}>Donate</LinkButton>
 
         <button
           type="button"
-          onClick={() => setIsMenuOpen((previous) => !previous)}
+          onClick={() => { setMenuLoaded(true); setIsMenuOpen(previous => !previous); }}
           aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
           aria-expanded={isMenuOpen}
           aria-controls="mobile-navigation"
-          className="focus-visible:outline-primary rounded-lg p-2 focus-visible:outline-2 focus-visible:outline-offset-4 lg:hidden"
+          className="focus-visible:outline-primary rounded-lg p-2 focus-visible:outline-2 focus-visible:outline-offset-4 xl:hidden"
         >
           {isMenuOpen ? (
             <X className="size-7" aria-hidden="true" />
@@ -62,7 +68,7 @@ function Header() {
         </button>
       </div>
 
-      <MobileNav isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      {menuLoaded && <MobileNav isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} socialLinks={socialLinks} />}
     </header>
   );
 }

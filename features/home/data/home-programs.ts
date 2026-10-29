@@ -1,7 +1,7 @@
 import type { HomeProgramsContent } from "../types";
 
 export const programDestinations = [
-  { title: "Education", value: "/programs/education" },
+  { title: "Education & Child Counselling", value: "/programs/education" },
   { title: "Orphanage outreach", value: "/programs/orphanage" },
   { title: "Widow empowerment", value: "/programs/widow" },
   { title: "Christmas party", value: "/programs/party" },
@@ -17,8 +17,8 @@ export const defaultHomePrograms: HomeProgramsContent = {
   cards: [
     {
       id: "education",
-      category: "Education",
-      title: "Education & Youth Development",
+      category: "Education & Child Counselling",
+      title: "Education & Child Counselling",
       image: "/images/programs/education.jpg",
       imageAlt: "Beloved Kindness Maxcare education and youth development programme",
       href: "/programs/education",

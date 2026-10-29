@@ -21,3 +21,9 @@ export type GalleryCategory = {
   description: string;
   photos: GalleryPhoto[];
 };
+
+export type GalleryVideo = {
+  id: string; title: string; description: string;
+  videoUrl: string; posterUrl: string; posterAlt: string;
+  duration?: string; captionsUrl?: string; featured: boolean;
+};

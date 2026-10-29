@@ -797,3 +797,13 @@
     transition: none;
   }
 }
+
+/* Make the available, unselected areas clearly interactive. */
+.partnership-choice[aria-pressed="false"]:hover {
+  border-color: var(--color-primary);
+  background: #f8faff;
+}
+.partnership-choice:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+}

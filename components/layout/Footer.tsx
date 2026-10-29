@@ -28,7 +28,7 @@ const footerGroups = [
   {
     title: "Our Programmes",
     links: [
-      { label: "Education & School Fees", href: "/programs/education" },
+      { label: "Education & Child Counselling", href: "/programs/education" },
       { label: "Orphanage Outreach", href: "/programs/orphanage" },
       { label: "Widow Empowerment", href: "/programs/widow" },
       { label: "Christmas Celebration", href: "/programs/party" },

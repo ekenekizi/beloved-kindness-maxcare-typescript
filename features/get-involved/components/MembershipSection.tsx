@@ -1,7 +1,9 @@
 "use client";
 
+import { useFormStepFocus } from "@/lib/use-form-step-focus";
+
 import { Reveal } from "@/components/animation/HomepageMotion";
-import Image from "next/image";
+import Image from "@/components/ui/ResponsiveImage";
 import {
   defaultMembershipContent,
   type MembershipContent,
@@ -197,6 +199,8 @@ export default function MembershipSection({
   const [isSending, setIsSending] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const reviewRef = useFormStepFocus<HTMLHeadingElement>(review);
+  const successRef = useFormStepFocus<HTMLParagraphElement>(submitted);
 
   const {
     register,
@@ -300,7 +304,7 @@ export default function MembershipSection({
             >
               <Image
                 src={content.image}
-                unoptimized={content.image.startsWith("https://cdn.sanity.io/")}
+                
                 alt=""
                 fill
                 sizes="(min-width: 1120px) 450px, 45vw"
@@ -379,7 +383,7 @@ export default function MembershipSection({
             >
               <Image
                 src={content.image}
-                unoptimized={content.image.startsWith("https://cdn.sanity.io/")}
+                
                 alt={content.imageAlt}
                 fill
                 sizes="(min-width: 640px) calc(100vw - 48px), calc(100vw - 40px)"
@@ -652,7 +656,7 @@ export default function MembershipSection({
 
               {review && (
                 <section aria-label="Application review">
-                  <h4 className="text-lg font-bold text-foreground">
+                  <h4 ref={reviewRef} tabIndex={-1} className="scroll-mt-32 text-lg font-bold text-foreground">
                     Review your application
                   </h4>
 
@@ -720,7 +724,9 @@ export default function MembershipSection({
               {submitted && (
                 <p
                   role="status"
-                  className="mt-5 rounded-xl bg-green-50 p-4 text-sm text-green-800"
+                  ref={successRef}
+                  tabIndex={-1}
+                  className="mt-5 scroll-mt-32 rounded-xl bg-green-50 p-4 text-sm text-green-800"
                 >
                   Thank you! Your application has been submitted.
                 </p>

@@ -1,5 +1,5 @@
 export async function submitEnquiry(
-  kind: "membership" | "partnership",
+  kind: "membership" | "partnership" | "counselling",
   data: unknown,
   submissionId: string,
   website: string,

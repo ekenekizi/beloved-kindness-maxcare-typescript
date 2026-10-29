@@ -29,7 +29,13 @@ import { donatePageType } from "./donatePage";
 
 import { partnerPageType, volunteerPageType } from "./involvementPages";
 
+import { siteSettingsType } from "./siteSettings";
+
+import { galleryVideoType } from "./galleryVideo";
+
 export const schemaTypes = [
+  galleryVideoType,
+  siteSettingsType,
   storyType,
   galleryAlbumType,
   homePageType,

@@ -13,7 +13,7 @@ export const donationCauses = [
   },
   {
     value: "education",
-    label: "Education",
+    label: "Education & Child Counselling",
   },
   {
     value: "community",

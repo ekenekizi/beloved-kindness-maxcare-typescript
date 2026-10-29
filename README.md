@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Beloved Kindness Maxcare
 
-## Getting Started
+Next.js App Router website with Sanity Studio, Neon donation records, Paystack test checkout and Resend enquiry emails.
 
-First, run the development server:
+## Local development
+Use Node.js 24.x. Run npm ci, copy .env.example to .env.local and fill it with your own settings, then run npm run dev.
+Studio is available at /admin. Published CMS content is cached for 60 seconds.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Checks
+- npm run lint
+- npm run typecheck
+- npm test
+- npm run build
+- npm start (serves the production build)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Tests mock email/payment providers and use an in-memory PostgreSQL-compatible database. They do not send messages or charge money.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Vercel deployment
+1. Import the repository and select the Next.js framework preset.
+2. Use Node.js 24.x, npm ci, the default npm run build command and the default output directory. Do not configure a static export: this application has API routes.
+3. Add every variable from .env.example in Vercel's environment settings, using real values. Do not expose server-only keys with NEXT_PUBLIC_.
+4. Set APP_URL to the HTTPS URL that donors will actually use. Keep separate values for preview and production environments. Redeploy after changing environment variables.
+5. In Sanity project settings, add the deployed Studio origin as an allowed CORS origin with credentials enabled. Enter only the origin, without /admin.
+6. Configure the matching Paystack TEST webhook as https://YOUR-DEPLOYED-HOST/api/payments/webhook. The endpoint must be accessible without a login/deployment-protection challenge. Ngrok is only for local development.
+7. Test public pages, CMS sign-in, photo/video galleries, both enquiry forms, counselling recipient routing and test payment callbacks/webhooks on the deployed URL.
+8. Add the custom domain through Vercel and apply the exact DNS records Vercel provides. Preserve the existing Resend TXT/CNAME records and mailbox records.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Payment release status
+Payments are deliberately restricted to Paystack TEST keys and TEST transaction domains in code. A successful deployment does not enable real donations. Do not simply switch the secret to a live key: complete the live/test configuration change, Paystack approvals (including international acceptance), permanent webhook checks and a controlled live/settlement test separately.
 
-## Learn More
+The enquiry limiter is currently a best-effort per-instance memory limit. Shared rate limiting is still needed for consistent limits across serverless instances. Payment review/reconciliation procedures also remain necessary before accepting real money.
 
-To learn more about Next.js, take a look at the following resources:
+## Performance
+Local images use Next's image optimizer. CMS images use a responsive Sanity CDN loader, preserving the existing direct-delivery workaround for image-proxy timeouts.
+Video files are loaded only when a visitor opens a player. Mobile navigation and the video gallery have separate lazy-loaded chunks.
+The logo uses a small derivative; the original remains available. The favicon is a properly encoded small ICO.
+See docs/performance-and-deployment.md for the audit and measured results.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Official deployment reference: https://vercel.com/docs/frameworks/full-stack/nextjs
