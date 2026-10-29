@@ -57,16 +57,17 @@ export default function GallerySection({
 
           <h1
             id="gallery-heading"
-            className="mt-4 font-serif text-4xl leading-[1.05] font-black tracking-tight uppercase sm:text-5xl lg:text-4xl"
+            className={"mt-4 font-serif leading-[1.1] tracking-tight sm:text-5xl lg:text-4xl " + (view === "videos" ? "text-[1.75rem] font-bold" : "text-4xl font-black uppercase")}
           >
             {view === "videos"
-              ? "Every moment. A story of kindness."
+              ? <><span className="block sm:inline">Every moment.</span>{" "}<span className="block sm:inline">A story of kindness.</span></>
               : "Kindness, year after year."}
           </h1>
 
-          <p className="mx-auto mt-5 max-w-md text-sm leading-7 text-slate-600 sm:text-base">
-            Explore the people, programs, and everyday moments that bring our
-            mission to life.
+          <p className={"mx-auto max-w-md text-slate-600 sm:text-base " + (view === "videos" ? "mt-3 text-[13px] leading-6" : "mt-5 text-sm leading-7")}>
+            {view === "videos"
+              ? "Meet the people and moments bringing our mission to life."
+              : "Explore the people, programs, and everyday moments that bring our mission to life."}
           </p>
         </Reveal>
 
