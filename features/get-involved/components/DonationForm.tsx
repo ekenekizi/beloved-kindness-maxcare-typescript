@@ -3,7 +3,7 @@
 import { useFormStepFocus } from "@/lib/use-form-step-focus";
 
 import { Reveal } from "@/components/animation/HomepageMotion";
-import { useRef, useState } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { ArrowRight, Gift, Heart, LoaderCircle } from "lucide-react";
 import ShareForm from "@/components/ui/ShareForm";
@@ -28,6 +28,14 @@ type GiftReview = DonorDetails & {
 };
 
 const suggestedAmounts = [5000, 10000, 25000];
+
+// Keep the editable decimal string intact; commas are only for display.
+function formatCustomAmount(value: string) {
+  if (!/^\d*(\.\d*)?$/.test(value)) return value;
+  const [whole, fraction] = value.split(".");
+  const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return fraction === undefined ? grouped : `${grouped}.${fraction}`;
+}
 
 const causes = donationCauses.map((cause) => cause.label);
 
@@ -102,11 +110,41 @@ export default function DonationForm({
     setReview(null);
   }
 
-  function changeCustomAmount(value: string) {
+  function changeCustomAmount(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    const displayed = input.value;
+    const selection = input.selectionStart ?? displayed.length;
+    let position = displayed.slice(0, selection).replace(/,/g, "").length;
+    let value = displayed.replace(/,/g, "");
+
+    // Deleting a separator should delete the adjacent digit, not reinsert
+    // the comma and leave the visitor stuck at the same position.
+    const inputType = (event.nativeEvent as InputEvent).inputType;
+    if (value === customAmount && inputType === "deleteContentBackward" && position > 0) {
+      value = value.slice(0, position - 1) + value.slice(position);
+      position -= 1;
+    } else if (value === customAmount && inputType === "deleteContentForward") {
+      value = value.slice(0, position) + value.slice(position + 1);
+    }
+
     setCustomAmount(value);
     setSelectedAmount(null);
     setAmountError("");
     setReview(null);
+
+    const formatted = formatCustomAmount(value);
+    let caret = 0;
+    let characters = 0;
+    while (caret < formatted.length && characters < position) {
+      if (formatted[caret] !== ",") characters += 1;
+      caret += 1;
+    }
+    // Restore the caret after React renders the formatted controlled value.
+    requestAnimationFrame(() => {
+      if (document.activeElement === input && input.value === formatted) {
+        input.setSelectionRange(caret, caret);
+      }
+    });
   }
 
   function reviewGift(details: DonorDetails) {
@@ -318,8 +356,8 @@ export default function DonationForm({
               inputMode="decimal"
               autoComplete="off"
               spellCheck={false}
-              value={customAmount}
-              onChange={(event) => changeCustomAmount(event.target.value)}
+              value={formatCustomAmount(customAmount)}
+              onChange={changeCustomAmount}
               placeholder="Enter another amount"
               aria-invalid={Boolean(amountError)}
               aria-describedby={
